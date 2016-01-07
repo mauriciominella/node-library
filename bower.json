@@ -1,0 +1,22 @@
+{
+  "name": "node-library",
+  "description": "",
+  "main": "app.js",
+  "authors": [
+    "Mauricio Minella <mauricio.minella@bravi.com.br>"
+  ],
+  "license": "BSD-2-Clause",
+  "moduleType": [],
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.3.6",
+    "font-awesome": "~4.5.0"
+  }
+}
