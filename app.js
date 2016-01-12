@@ -7,6 +7,7 @@ var port = process.env.PORT || 5000;
 var navigation = [{Link:'/Books', Text: 'Book'},{Link:'/Authors', Text:'Author'}]
 
 var bookRouter = require('./src/routes/bookRoutes')(navigation);
+var adminRouter = require('./src/routes/adminRoutes')(navigation);
 
 //express setup
 app.use(express.static('public'));
@@ -16,8 +17,10 @@ var handlebars = require('express-handlebars');
 app.engine('.hbs', handlebars({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 
+
 //routes
 app.use('/Books', bookRouter);
+app.use('/Admin', adminRouter);
 
 app.get('/', function(req, res){
 	res.render('index', {	title: 'Home', nav: navigation });

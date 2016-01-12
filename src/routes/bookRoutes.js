@@ -21,8 +21,13 @@ var router = function(navigation){
 			title: 'Other Book',
 			genre: 'Other Book Genre',
 			author: 'Other book author books'
+		},
+		{
+			title: 'Fourth Book',
+			genre: 'Fourth Book Genre',
+			author: 'Fourth book author'
 		}
-	]
+	];
 
 	bookRouter.route('/')
 		.get(function(req, res){
@@ -36,6 +41,6 @@ var router = function(navigation){
 		});
 
 		return bookRouter;
-}
+};
 
 module.exports = router;
