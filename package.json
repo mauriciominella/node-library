@@ -10,15 +10,16 @@
   "author": "",
   "license": "BSD-2-Clause",
   "dependencies": {
+    "body-parser": "~1.14.2",
+    "cookie-parser": "~1.4.1",
     "express": "~4.13.3",
     "express-handlebars": "~2.0.1",
+    "express-session": "~1.13.0",
     "jshint": "~2.9.1-rc2",
     "kerberos": "0.0.17",
     "mongodb": "^2.1.4",
-    "body-parser": "~1.14.2",
-    "cookie-parser": "~1.4.1",
     "passport": "~0.3.2",
-    "express-session": "~1.13.0"
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "gulp": "~3.9.0",
