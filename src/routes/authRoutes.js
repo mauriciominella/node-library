@@ -6,8 +6,22 @@ var router = function(){
     authRouter.route('/signUp')
       .post(function(req, res){
           console.log(req.body);
-          req.login(req.body, function(){
-              res.redirect('/auth/profile');
+
+          var url = 'mongodb://localhost:27017/libraryApp';
+
+          mongodb.connect(url, function(err, db){
+              var collection = db.collection('users');
+
+              var user = {
+                username: req.body.userName,
+                password: req.body.password
+              };
+
+              collection.insert(user, function(err, results){
+                  req.login(results.ops[0], function(){
+                      res.redirect('/auth/profile');
+                  });
+              });
           });
       });
 
