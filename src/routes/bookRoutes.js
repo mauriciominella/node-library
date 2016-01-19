@@ -5,6 +5,14 @@ var objectId = require('mongodb').ObjectID;
 
 var router = function(navigation){
 
+	bookRouter.use(function(req, res, next){
+			if(!req.user){
+					return res.redirect('/');
+			}
+			next();
+	});
+
+
 	bookRouter.route('/')
 		.get(function(req, res){
 
@@ -50,8 +58,6 @@ var router = function(navigation){
 					});
 
 			});
-
-			//res.render('bookView', {title:'Books', nav: navigation, book: books[id] });
 		});
 
 		return bookRouter;
