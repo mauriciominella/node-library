@@ -42,12 +42,22 @@ var bookController = function(bookService, navigation){
 
 					collection.findOne({_id: id},
 						function(err, results){
-								res.render('bookView',
-																			{
-																			 title:'Books',
-																			 nav: navigation,
-																			 book: results
-																		 });
+
+                bookService.getBookbyId(results.bookId,
+                    function(err, book){
+
+                      results.book = book;
+
+                      res.render('bookView',
+      																			{
+      																			 title:'Books',
+      																			 nav: navigation,
+      																			 book: results
+      																		 });
+                    }
+                );
+
+
 								db.close();
 					});
 
@@ -62,3 +72,4 @@ var bookController = function(bookService, navigation){
 };
 
 module.exports = bookController;
+//https://www.goodreads.com/book/show/50?format=xml&key=bX4QAhJfiEp8G6yE8RW7w

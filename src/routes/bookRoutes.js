@@ -6,7 +6,8 @@ var objectId = require('mongodb').ObjectID;
 
 var router = function(navigation){
 
-	var bookController = require('../controllers/bookController')(null, navigation);
+	var bookService = require('../services/goodreadsService')();
+	var bookController = require('../controllers/bookController')(bookService, navigation);
 
 	bookRouter.use(bookController.middleware);
 
