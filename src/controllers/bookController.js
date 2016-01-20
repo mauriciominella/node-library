@@ -41,22 +41,35 @@ var bookController = function(bookService, navigation){
 					var collection = db.collection('books');
 
 					collection.findOne({_id: id},
+
 						function(err, results){
+                  if(results.bookId){
 
-                bookService.getBookbyId(results.bookId,
-                    function(err, book){
+                    bookService.getBookbyId(results.bookId,
+                        function(err, book){
 
-                      results.book = book;
+                          results.book = book;
 
-                      res.render('bookView',
-      																			{
-      																			 title:'Books',
-      																			 nav: navigation,
-      																			 book: results
-      																		 });
-                    }
-                );
+                          res.render('bookView',
+          																			{
+          																			 title:'Books',
+          																			 nav: navigation,
+          																			 book: results
+          																		 });
 
+                      }
+              );
+
+            } else{
+
+                res.render('bookView',
+                                      {
+                                       title:'Books',
+                                       nav: navigation,
+                                       book: results
+                                     });
+
+              }
 
 								db.close();
 					});

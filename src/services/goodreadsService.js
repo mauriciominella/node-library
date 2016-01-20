@@ -8,21 +8,31 @@ var goodreadsService = function(){
 
         var options = {
             host: 'www.goodreads.com',
-            path: '/book/show/50?format=xml&key=bX4QAhJfiEp8G6yE8RW7w'
+            path: '/book/show/' + id + '?format=xml&key=bX4QAhJfiEp8G6yE8RW7w'
         };
 
         var httpCallback = function(response){
+            var str = '';
 
+            response.on('data', function(chunk){
+                str += chunk;
+            });
+
+            response.on('end', function () {
+                console.log(str);
+                parser.parseString(str,
+                  function(err, jsonDocument){
+                    cb(null, jsonDocument.GoodreadsResponse.book);
+                });
+            });
         };
 
-        cb(null, { description: 'Book description here!'});
-
-        http.request(options, callback).end();
+        http.request(options, httpCallback).end();
     };
 
     return {
         getBookbyId: getBookbyId
-    }
+    };
 };
 
 module.exports = goodreadsService;
