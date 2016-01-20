@@ -3,78 +3,69 @@ var objectId = require('mongodb').ObjectID;
 
 var bookController = function(bookService, navigation){
 
+    //Midleware
     var middleware = function(req, res, next){
-  			/*if(!req.user){
-  					return res.redirect('/');
-  			}*/
+  			if(!req.user){ return res.redirect('/'); }
   			next();
   	};
 
+    //GetIndex
     var getIndex = function(req, res){
 
 			var url = 'mongodb://localhost:27017/libraryApp';
 
-			mongodb.connect(url, function(err, db){
+      var dbConnectCallback = function(err, db){
+
 					var collection = db.collection('books');
 
 					collection.find({}).toArray(
 						function(err, results){
-								res.render('bookListView',
-																			{
-																			 title:'Books',
-																			 nav: navigation,
-																			 books: results
-																		 });
+
+								res.render('bookListView', { title:'Books', nav: navigation, books: results});
 								db.close();
 					});
+			};
 
-			});
+			mongodb.connect(url, dbConnectCallback);
+
 		};
 
+    //getById
     var getById = function (req, res) {
 
 	    var id = new objectId(req.params.id);
 
 			var url = 'mongodb://localhost:27017/libraryApp';
 
-			mongodb.connect(url, function(err, db){
+      var dbConnectCallback = function(err, db){
+
 					var collection = db.collection('books');
 
-					collection.findOne({_id: id},
+          var findOneCallback = function(err, results){
 
-						function(err, results){
-                  if(results.bookId){
+              var render = function(){
+                  render('bookView', { title:'Books', nav: navigation, book: results });
+              };
 
-                    bookService.getBookbyId(results.bookId,
-                        function(err, book){
+              var findBook = function(){
 
-                          results.book = book;
+                  bookService.getBookbyId(results.bookId,
+                    function(err, book){
+                      results.book = book;
+                      render();
+                    }
+                  );
+              };
 
-                          res.render('bookView',
-          																			{
-          																			 title:'Books',
-          																			 nav: navigation,
-          																			 book: results
-          																		 });
+              (results.bookId) ? findBook() : render();
 
-                      }
-              );
+              db.close();
+        };
 
-            } else{
+          collection.findOne({_id: id}, findOneCallback);
+			}
 
-                res.render('bookView',
-                                      {
-                                       title:'Books',
-                                       nav: navigation,
-                                       book: results
-                                     });
-
-              }
-
-								db.close();
-					});
-
-			});
+			mongodb.connect(url, dbConnectCallback);
 		};
 
     return {
@@ -85,4 +76,3 @@ var bookController = function(bookService, navigation){
 };
 
 module.exports = bookController;
-//https://www.goodreads.com/book/show/50?format=xml&key=bX4QAhJfiEp8G6yE8RW7w
